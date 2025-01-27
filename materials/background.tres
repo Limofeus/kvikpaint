@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://8iymp66f7e53"]
+
+[ext_resource type="Shader" path="res://shaders/background.gdshader" id="1_3rbrv"]
+
+[resource]
+shader = ExtResource("1_3rbrv")
+shader_parameter/canv_position = Vector2(0, 0)
+shader_parameter/canv_zoom = 1.0
+shader_parameter/canv_linear_zoom = 1.0
+shader_parameter/main_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/stroke_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/grid_size = 100.0
+shader_parameter/line_width = 5.0

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PaletteResource" load_steps=2 format=3 uid="uid://bp3jrhogowddu"]
+
+[ext_resource type="Script" path="res://scripts/resources/palette_resource.gd" id="1_dxhix"]
+
+[resource]
+script = ExtResource("1_dxhix")
+palette_name = "Default"
+palette_colors = Array[Color]([Color(0, 0, 0, 1), Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 1, 0, 1), Color(0, 1, 1, 1), Color(1, 0, 1, 1), Color(1, 0.5, 0.5, 1), Color(0.51, 1, 0.51, 1), Color(1, 1, 1, 1)])

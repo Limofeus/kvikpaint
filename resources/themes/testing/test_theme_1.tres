@@ -1,0 +1,38 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://d2tyep1ld542p"]
+
+[ext_resource type="FontFile" uid="uid://fqe4eb64wftd" path="res://fonts/zero_cool/ZeroCool.ttf" id="1_4dy5o"]
+[ext_resource type="StyleBox" uid="uid://bjy1c7ogiwuo2" path="res://resources/styles/ui/panels/light_panel.tres" id="2_nwcbi"]
+[ext_resource type="StyleBox" uid="uid://brjgx00ynl3w4" path="res://resources/styles/ui/panels/light_panel_square.tres" id="3_vurjx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p4fi6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8b843"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_isrtr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_am0d4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8wok0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f01ng"]
+
+[resource]
+Button/icons/icon = null
+OptionButton/constants/align_to_largest_stylebox = 1
+OptionButton/constants/outline_size = 10
+OptionButton/fonts/font = ExtResource("1_4dy5o")
+OptionButton/styles/disabled_mirrored = SubResource("StyleBoxEmpty_p4fi6")
+OptionButton/styles/focus = SubResource("StyleBoxEmpty_8b843")
+OptionButton/styles/hover = ExtResource("2_nwcbi")
+OptionButton/styles/hover_mirrored = SubResource("StyleBoxEmpty_isrtr")
+OptionButton/styles/normal = ExtResource("2_nwcbi")
+OptionButton/styles/normal_mirrored = SubResource("StyleBoxEmpty_am0d4")
+OptionButton/styles/pressed = ExtResource("2_nwcbi")
+OptionButton/styles/pressed_mirrored = null
+PopupMenu/constants/outline_size = 10
+PopupMenu/font_sizes/font_size = 20
+PopupMenu/fonts/font = ExtResource("1_4dy5o")
+PopupMenu/styles/hover = ExtResource("2_nwcbi")
+PopupMenu/styles/labeled_separator_left = SubResource("StyleBoxEmpty_8wok0")
+PopupMenu/styles/labeled_separator_right = SubResource("StyleBoxEmpty_f01ng")
+PopupMenu/styles/panel = ExtResource("3_vurjx")

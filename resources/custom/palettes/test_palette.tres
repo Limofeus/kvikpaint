@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PaletteResource" load_steps=2 format=3 uid="uid://da0jp3kekrh8k"]
+
+[ext_resource type="Script" path="res://scripts/resources/palette_resource.gd" id="1_qtrip"]
+
+[resource]
+script = ExtResource("1_qtrip")
+palette_name = "Limy Testing"
+palette_colors = Array[Color]([Color(0.0761561, 1, 0, 1), Color(1, 0.88644, 0, 1), Color(1, 0.405823, 0, 1), Color(0, 1, 0.816989, 1), Color(0.151741, 1, 0.432467, 1), Color(0.488594, 1, 0.526254, 1), Color(0.633481, 1, 0.41662, 1), Color(0.658667, 1, 0, 1), Color(1, 0.941435, 0.384248, 1), Color(1, 0.729016, 0, 1)])

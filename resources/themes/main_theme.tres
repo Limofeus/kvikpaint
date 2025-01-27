@@ -1,0 +1,63 @@
+[gd_resource type="Theme" load_steps=14 format=3 uid="uid://bclfhc3crpwgv"]
+
+[ext_resource type="StyleBox" uid="uid://bjy1c7ogiwuo2" path="res://resources/styles/ui/panels/light_panel.tres" id="1_rbomn"]
+[ext_resource type="StyleBox" uid="uid://c186xhrqwr26s" path="res://resources/styles/ui/panels/light_hover_panel.tres" id="1_t57sn"]
+[ext_resource type="Texture2D" uid="uid://b5p1usdyuyf0s" path="res://sprites/ui/three_horizontal_bars.png" id="2_0dn8a"]
+[ext_resource type="FontFile" uid="uid://fqe4eb64wftd" path="res://fonts/zero_cool/ZeroCool.ttf" id="3_8d75e"]
+[ext_resource type="StyleBox" uid="uid://kxwj35nyj0wq" path="res://resources/styles/ui/panels/light_pressed_panel.tres" id="3_u15mo"]
+[ext_resource type="Texture2D" uid="uid://dsrtabyhumcgi" path="res://sprites/ui/spinbox_arrows.png" id="4_2p5wl"]
+[ext_resource type="StyleBox" uid="uid://d38cr87tenhsk" path="res://resources/styles/ui/lines/h_light_separator_line.tres" id="4_uge6q"]
+[ext_resource type="StyleBox" uid="uid://bjoj2d4yhmecs" path="res://resources/styles/ui/lines/v_light_separator_line.tres" id="6_yx3sg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0tj7e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onbmg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lj752"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xf8ob"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nkbjq"]
+
+[resource]
+default_font = ExtResource("3_8d75e")
+default_font_size = 20
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/constants/align_to_largest_stylebox = 1
+Button/constants/outline_size = 10
+Button/styles/hover = ExtResource("1_t57sn")
+Button/styles/normal = ExtResource("1_rbomn")
+Button/styles/pressed = ExtResource("3_u15mo")
+ColorSelectButton/base_type = &"Button"
+ColorSelectButton/colors/font_color = Color(1, 1, 1, 1)
+ColorSelectButton/colors/font_hover_color = Color(0.7, 1, 0.7, 1)
+ColorSelectButton/colors/font_pressed_color = Color(0.5, 1, 0.5, 1)
+HSeparator/styles/separator = ExtResource("4_uge6q")
+HintLabel/base_type = &"Label"
+HintLabel/colors/font_color = Color(0.5, 0.5, 0.5, 1)
+HintLabel/constants/outline_size = 0
+Label/constants/outline_size = 10
+LineEdit/colors/font_color = Color(1, 1, 1, 1)
+LineEdit/constants/minimum_character_width = 3
+LineEdit/constants/outline_size = 10
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_0tj7e")
+LineEdit/styles/normal = ExtResource("1_rbomn")
+PanelContainer/styles/panel = ExtResource("1_rbomn")
+PopupMenu/colors/font_color = Color(1, 1, 1, 1)
+PopupMenu/constants/outline_size = 10
+PopupMenu/styles/hover = ExtResource("3_u15mo")
+PopupMenu/styles/panel = ExtResource("1_rbomn")
+SpinBox/icons/updown = ExtResource("4_2p5wl")
+SymbolLabel/base_type = &"Label"
+SymbolLabel/colors/font_color = Color(0, 0, 0, 1)
+SymbolLabel/constants/outline_size = 0
+ThreeBarsButton/base_type = &"Button"
+ThreeBarsButton/colors/icon_hover_color = Color(0.8, 0.8, 0.8, 1)
+ThreeBarsButton/colors/icon_normal_color = Color(1, 1, 1, 1)
+ThreeBarsButton/colors/icon_pressed_color = Color(0.5, 0.5, 0.5, 1)
+ThreeBarsButton/icons/icon = ExtResource("2_0dn8a")
+ThreeBarsButton/styles/disabled = SubResource("StyleBoxEmpty_onbmg")
+ThreeBarsButton/styles/hover = SubResource("StyleBoxEmpty_lj752")
+ThreeBarsButton/styles/normal = SubResource("StyleBoxEmpty_xf8ob")
+ThreeBarsButton/styles/pressed = SubResource("StyleBoxEmpty_nkbjq")
+VSeparator/styles/separator = ExtResource("6_yx3sg")

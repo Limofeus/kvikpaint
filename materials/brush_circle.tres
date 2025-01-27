@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cpq52kqlysl1w"]
+
+[ext_resource type="Shader" path="res://shaders/brush_circle.gdshader" id="1_rr82s"]
+
+[resource]
+shader = ExtResource("1_rr82s")
+shader_parameter/object_pixel_size = Vector2(1024, 1024)
+shader_parameter/circle_radius = 10.0
+shader_parameter/circle_width = 0.0
+shader_parameter/circle_feather = 2.0
+shader_parameter/font_size_mult = 4.0
+shader_parameter/font_size_indicator_width = 1.5
+shader_parameter/font_size_indicator_minimum_length = 5.0
+shader_parameter/font_size_indicator_horizontal_feather = 1.0
+shader_parameter/font_size_indicator_vertical_feather = 0.5

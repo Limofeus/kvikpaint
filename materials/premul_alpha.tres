@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c4nra1e6g2plh"]
+
+[ext_resource type="Shader" path="res://shaders/premul_alpha.gdshader" id="1_4wiab"]
+
+[resource]
+shader = ExtResource("1_4wiab")
