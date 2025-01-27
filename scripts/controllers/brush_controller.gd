@@ -1,7 +1,7 @@
 extends Node
 class_name BrushController
 
-const FONT_SIZE_TO_ACTUAL_TEXT_SIZE = 0.8
+const FONT_SIZE_TO_ACTUAL_TEXT_SIZE = 0.7
 
 @export var _default_brush_settings : BrushSettings = preload("res://resources/custom/brush settings/default_brush_settings.tres")
 @export var _brush_settings : BrushSettings = null
@@ -28,7 +28,6 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_pressed("sift_modifier_key"):
 		if event is InputEventMouseButton and event.pressed:
 			if Input.is_action_just_pressed("brush_size_increase"):
-				print("INCREASE BRUSH")
 				_brush_settings.brush_size += 1 + floor(_brush_settings.brush_size / 10.0)
 				_brush_settings.brush_size = min(_brush_settings.brush_size, 500)
 				apply_brush_settings(_brush_settings)

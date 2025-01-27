@@ -54,7 +54,7 @@ func update_canv_shader():
 		background_shader.set_shader_parameter("canv_position", canvas_pos) #If you want to allow user to change ui scale, then multiply by this: * get_window().content_scale_factor
 		background_shader.set_shader_parameter("canv_zoom", camera_zoom)
 		background_shader.set_shader_parameter("canv_linear_zoom", camera_zoom_linear)
-		print(camera_zoom, camera_zoom_linear);
+		#print(camera_zoom, camera_zoom_linear);
 
 func get_canvas_coordinates(point : Vector2):
 	return (Vector2(point.x, point.y) / camera_zoom) - canvas_pos

@@ -27,6 +27,16 @@ func _ready():
 func get_canvas_coordinates(point : Vector2):
 	return canvas_dragger.get_canvas_coordinates(point)
 
+func clear_canvas():
+	save_to_undo_buffer()
+	canvas_image.fill(Color.WHITE)
+	canvas_texture.update(canvas_image)
+
+func save_to_undo_buffer():
+	undo_buffer.append(canvas_image.duplicate())
+	if undo_buffer.size() > MAX_UNDO_COUNT:
+		undo_buffer.remove_at(0)
+
 func undo_last_draw():
 	if undo_buffer.size() > 0:
 		canvas_image = undo_buffer.pop_back()
@@ -40,10 +50,7 @@ func get_image() -> Image:
 	return canvas_image.duplicate()
 
 func apply_buffer(blur_edges : bool = false):
-
-	undo_buffer.append(canvas_image.duplicate())
-	if undo_buffer.size() > MAX_UNDO_COUNT:
-		undo_buffer.remove_at(0)
+	save_to_undo_buffer()
 
 	var rasterized_image = rasterizer_texture.get_image()
 	canvas_image.blend_rect(rasterized_image, Rect2(0, 0, 1600, 900), Vector2i.ZERO) #Change Rect2 dimensions to allow different size images

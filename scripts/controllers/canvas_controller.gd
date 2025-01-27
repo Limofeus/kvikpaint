@@ -11,6 +11,9 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("undo_draw"):
 			canvas.undo_last_draw()
 
+		if Input.is_action_just_pressed("clear_canvas"):
+			canvas.clear_canvas()
+
 func set_image(image : Image):
 	canvas.call_deferred("set_image", image)
 

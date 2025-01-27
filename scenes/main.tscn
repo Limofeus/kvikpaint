@@ -155,7 +155,16 @@ alignment = 2
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"HintLabel"
+text = "v0.1"
+
+[node name="TextureRect" type="TextureRect" parent="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftContainer/MarginContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_2qm6d")
@@ -361,17 +370,24 @@ layout_mode = 2
 [node name="Controls hep" type="Label" parent="InterfaceLayer/Hint/ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"HintLabel"
-text = "
-Drawing:
+text = "Drawing:
 LMB - Draw
 RMB - Erase
-Start typing and text will appear on the canvas
 Shift + Scroll Wheel - Change brush size
-Ctrl + [1-0] - Select color
+Ctrl + [1-0] - Select color (Keypad also works)
+There are multiple palettes to choose from
+
+Text:
+Start typing and text will appear on the canvas
+Text size is multiple of your brush size, configure it via top panel
 
 Navigation:
 MMB - Pan around
-Scroll Wheel - Zoom"
+Scroll Wheel - Zoom
+
+Utility:
+Ctrl + Z - Undo
+Ctrl + D - Clear canvas"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0

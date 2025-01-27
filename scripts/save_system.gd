@@ -33,7 +33,7 @@ func compose_save_file() -> SaveResource:
 
 func save_to_file(save_resource : SaveResource) -> void:
 	var save_file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
-	print(save_resource)
+	#print(save_resource)
 	save_file.store_var(save_resource, true)
 	save_file.close()
 
