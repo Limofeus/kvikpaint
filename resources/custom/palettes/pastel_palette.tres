@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PaletteResource" load_steps=2 format=3 uid="uid://dj8edmo8qxg6u"]
+
+[ext_resource type="Script" path="res://scripts/resources/palette_resource.gd" id="1_he3ag"]
+
+[resource]
+script = ExtResource("1_he3ag")
+palette_name = "Pastel"
+palette_colors = Array[Color]([Color(1, 0.678431, 0.678431, 1), Color(1, 0.839216, 0.647059, 1), Color(0.992157, 1, 0.713726, 1), Color(0.792157, 1, 0.74902, 1), Color(0.61, 1, 0.8505, 1), Color(0.607843, 0.964706, 1, 1), Color(0.627451, 0.768627, 1, 1), Color(0.741176, 0.698039, 1, 1), Color(1, 0.776471, 1, 1), Color(1, 1, 1, 1)])

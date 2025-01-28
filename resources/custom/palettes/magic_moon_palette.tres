@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PaletteResource" load_steps=2 format=3 uid="uid://cfuipasohcg3e"]
+
+[ext_resource type="Script" path="res://scripts/resources/palette_resource.gd" id="1_e2023"]
+
+[resource]
+script = ExtResource("1_e2023")
+palette_name = "Magic Moon"
+palette_colors = Array[Color]([Color(0.572549, 0.0980392, 0.615686, 1), Color(0.462745, 0.219608, 0.741176, 1), Color(0.603922, 0.341176, 0.705882, 1), Color(0.407843, 0.490196, 0.796078, 1), Color(0.556863, 0.670588, 0.784314, 1), Color(0.94902, 0.368627, 0.576471, 1), Color(0.960784, 0.572549, 0.67451, 1), Color(0.980392, 0.701961, 0.564706, 1), Color(0.984314, 0.788235, 0.72549, 1), Color(0.984314, 0.992157, 0.713726, 1)])

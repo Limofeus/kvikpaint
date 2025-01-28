@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dmgcvmggkbdfq"]
+[gd_scene load_steps=35 format=3 uid="uid://dmgcvmggkbdfq"]
 
 [ext_resource type="Script" path="res://scripts/save_system.gd" id="1_dlj1c"]
 [ext_resource type="Script" path="res://scripts/controllers/brush_controller.gd" id="1_fwu3q"]
@@ -18,10 +18,16 @@
 [ext_resource type="Resource" uid="uid://bp3jrhogowddu" path="res://resources/custom/palettes/default_palette.tres" id="5_hc4qk"]
 [ext_resource type="Material" uid="uid://c3bagv5b6bx17" path="res://materials/invert_color.tres" id="5_ipkgq"]
 [ext_resource type="Texture2D" uid="uid://cetisllpexpog" path="res://sprites/common/arrow_128.png" id="5_s8up8"]
-[ext_resource type="Resource" uid="uid://da0jp3kekrh8k" path="res://resources/custom/palettes/test_palette.tres" id="6_c32se"]
 [ext_resource type="Material" uid="uid://c4nra1e6g2plh" path="res://materials/premul_alpha.tres" id="6_s2ids"]
+[ext_resource type="Resource" uid="uid://dj8edmo8qxg6u" path="res://resources/custom/palettes/pastel_palette.tres" id="7_bmvrb"]
 [ext_resource type="Theme" uid="uid://bclfhc3crpwgv" path="res://resources/themes/main_theme.tres" id="7_ficnv"]
+[ext_resource type="Resource" uid="uid://bi8xsrei4c4m7" path="res://resources/custom/palettes/retro_palette.tres" id="8_w53ej"]
+[ext_resource type="Resource" uid="uid://csves6ush3t5j" path="res://resources/custom/palettes/cyberpunk_palette.tres" id="9_ukr21"]
 [ext_resource type="PackedScene" uid="uid://b4mn0ued76vd0" path="res://scenes/ui/color_slot.tscn" id="10_nua22"]
+[ext_resource type="Resource" uid="uid://ckqolriaruevy" path="res://resources/custom/palettes/galactic_greens_palette.tres" id="10_xe8rp"]
+[ext_resource type="Resource" uid="uid://cfuipasohcg3e" path="res://resources/custom/palettes/magic_moon_palette.tres" id="11_80ywi"]
+[ext_resource type="Resource" uid="uid://blh66x6wpf68n" path="res://resources/custom/palettes/quiet_night_palette.tres" id="12_xrfd3"]
+[ext_resource type="Resource" uid="uid://do210bxvanf6f" path="res://resources/custom/palettes/tandy_palette.tres" id="13_cvmak"]
 [ext_resource type="Script" path="res://scripts/ui/unfocus_spin_box.gd" id="14_7ugbr"]
 [ext_resource type="Material" uid="uid://bph2trvf3f7pf" path="res://materials/ui_blur.tres" id="15_xqo4d"]
 [ext_resource type="Script" path="res://scripts/ui/hint_popup.gd" id="16_8ryww"]
@@ -54,7 +60,7 @@ brush_controller = NodePath("../BrushController")
 color_slot_holder = NodePath("../InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer")
 color_slot_scene = ExtResource("10_nua22")
 palette_selector = NodePath("../InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/OptionButton")
-palettes = Array[ExtResource("4_vqxrj")]([ExtResource("5_hc4qk"), ExtResource("6_c32se")])
+palettes = Array[ExtResource("4_vqxrj")]([ExtResource("5_hc4qk"), ExtResource("7_bmvrb"), ExtResource("8_w53ej"), ExtResource("9_ukr21"), ExtResource("10_xe8rp"), ExtResource("11_80ywi"), ExtResource("12_xrfd3"), ExtResource("13_cvmak")])
 
 [node name="BrushController" type="Node" parent="." node_paths=PackedStringArray("brush_display", "main_draw_state", "line_buffer", "text_buffer", "brush_size_spinbox", "text_size_mult_spinbox")]
 script = ExtResource("1_fwu3q")
@@ -387,7 +393,8 @@ Scroll Wheel - Zoom
 
 Utility:
 Ctrl + Z - Undo
-Ctrl + D - Clear canvas"
+Ctrl + D - Clear canvas
+Ctrl + S - Save image"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0

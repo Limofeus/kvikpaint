@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PaletteResource" load_steps=2 format=3 uid="uid://do210bxvanf6f"]
+
+[ext_resource type="Script" path="res://scripts/resources/palette_resource.gd" id="1_3dpcn"]
+
+[resource]
+script = ExtResource("1_3dpcn")
+palette_name = "Tandy"
+palette_colors = Array[Color]([Color(0, 0, 0, 1), Color(0, 0.25098, 0, 1), Color(1, 0, 0, 1), Color(0, 1, 0, 1), Color(0, 0, 1, 1), Color(1, 1, 0, 1), Color(1, 0, 1, 1), Color(0, 1, 1, 1), Color(1, 0.501961, 0, 1), Color(1, 1, 1, 1)])

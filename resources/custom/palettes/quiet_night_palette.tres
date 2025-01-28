@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PaletteResource" load_steps=2 format=3 uid="uid://blh66x6wpf68n"]
+
+[ext_resource type="Script" path="res://scripts/resources/palette_resource.gd" id="1_lyp7f"]
+
+[resource]
+script = ExtResource("1_lyp7f")
+palette_name = "Quiet Night"
+palette_colors = Array[Color]([Color(0.164706, 0.113725, 0.0901961, 1), Color(0.227451, 0.231373, 0.243137, 1), Color(0.360784, 0.407843, 0.470588, 1), Color(0.423529, 0.458824, 0.356863, 1), Color(0.462745, 0.631373, 0.588235, 1), Color(0.290196, 0.254902, 0.14902, 1), Color(0.478431, 0.321569, 0.207843, 1), Color(0.694118, 0.52549, 0.243137, 1), Color(0.65098, 0.666667, 0.384314, 1), Color(0.878431, 0.780392, 0.623529, 1)])
