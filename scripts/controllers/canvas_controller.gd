@@ -32,13 +32,30 @@ func save_image(path : String):
 
 	var image_save_path = path + "/" + image_filename + ".png"
 
-	var counter = 0
-	while FileAccess.file_exists(image_save_path):
-		counter += 1
-		image_save_path = path + "/" + image_filename + "_" + str(counter) + ".png"
+	if OS.get_name() == "Web":
+		print("OS is Web, saving using JS")
+		
+		var image_data : PackedByteArray = image.save_png_to_buffer()
 
-		if counter > 100:
-			image_save_path = path + "/" + image_filename + "_" + str(Time.get_unix_time_from_system()) + ".png"
+		var base_64_data = Marshalls.raw_to_base64(image_data)
+		var url = "data:image/jpg;base64," + base_64_data
+		var comand = "
+			var a = document.createElement('a'); 
+			a.href = '" + url + "';  //<---- single qoutes and double quotes
+			a.setAttribute( 'download' , 'epic_drawing.png' );
+			a.click(); 
+		"
+		JavaScriptBridge.eval(comand, true)
 
-	image.save_png(image_save_path)
-	OS.shell_show_in_file_manager(image_save_path)
+	else:
+		print("OS is not Web, saving using counter")
+		var counter = 0
+		while FileAccess.file_exists(image_save_path):
+			counter += 1
+			image_save_path = path + "/" + image_filename + "_" + str(counter) + ".png"
+
+			if counter > 100:
+				image_save_path = path + "/" + image_filename + "_" + str(Time.get_unix_time_from_system()) + ".png"
+
+		image.save_png(image_save_path)
+		OS.shell_show_in_file_manager(image_save_path)

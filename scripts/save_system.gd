@@ -10,6 +10,7 @@ const SAVE_FILE_PATH = "user://save_file.funky"
 @export var hint_node : Control = null
 
 func _ready():
+	#get_tree().set_auto_accept_quit(false) # :)
 	var save_resource = load_from_file()
 	if save_resource != null:
 		brush_controller._brush_settings = save_resource.brush_settings
@@ -20,9 +21,11 @@ func _ready():
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		print("Close request")
 		save_to_file(compose_save_file())
 
 func compose_save_file() -> SaveResource:
+	print("Composing save file")
 	var composed_save_resource = SaveResource.new()
 
 	composed_save_resource.brush_settings = brush_controller._brush_settings.duplicate()
@@ -32,6 +35,7 @@ func compose_save_file() -> SaveResource:
 	return composed_save_resource
 
 func save_to_file(save_resource : SaveResource) -> void:
+	print("Saving to file")
 	var save_file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	#print(save_resource)
 	save_file.store_var(save_resource, true)
@@ -39,7 +43,9 @@ func save_to_file(save_resource : SaveResource) -> void:
 
 func load_from_file() -> SaveResource:
 	if not FileAccess.file_exists(SAVE_FILE_PATH):
+		print("No file")
 		return null
+	print("Yes file")
 	var save_file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 	var save_resource = save_file.get_var(true)
 	save_file.close()
