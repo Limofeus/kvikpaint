@@ -2,6 +2,9 @@ extends Node
 class_name CanvasController
 
 @export var canvas : Canvas = null
+@export var canvas_offseter : OffsetCanvases = null
+
+var canvas_offset : Vector2i = Vector2i.ZERO
 
 @onready var image_save_path : String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 
@@ -19,6 +22,25 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("clear_canvas"):
 			canvas.clear_canvas()
 
+		if Input.is_action_pressed("ctrl_modifier_key"):
+			if Input.is_action_just_pressed("arrow_right"):
+				offset_canvas(Vector2i.RIGHT)
+			if Input.is_action_just_pressed("arrow_left"):
+				offset_canvas(Vector2i.LEFT)
+			if Input.is_action_just_pressed("arrow_down"):
+				offset_canvas(Vector2i.DOWN)
+			if Input.is_action_just_pressed("arrow_up"):
+				offset_canvas(Vector2i.UP)
+
+func offset_canvas(offset : Vector2i):
+	set_canvas_offset(canvas_offset + offset)
+	print("New canvas offset: ", canvas_offset)
+	#TODO: Implement multiple canvases and canvas offset
+
+func set_canvas_offset(offset : Vector2i):
+	canvas_offset = offset
+	canvas_offseter.select_canvas(canvas_offset)
+
 func set_image(image : Image):
 	canvas.call_deferred("set_image", image)
 
@@ -30,7 +52,7 @@ func save_image(path : String):
 
 	var image_filename = "epic_drawing"
 
-	var image_save_path = path + "/" + image_filename + ".png"
+	var save_path = path + "/" + image_filename + ".png"
 
 	if OS.get_name() == "Web":
 		print("OS is Web, saving using JS")
@@ -50,12 +72,12 @@ func save_image(path : String):
 	else:
 		print("OS is not Web, saving using counter")
 		var counter = 0
-		while FileAccess.file_exists(image_save_path):
+		while FileAccess.file_exists(save_path):
 			counter += 1
-			image_save_path = path + "/" + image_filename + "_" + str(counter) + ".png"
+			save_path = path + "/" + image_filename + "_" + str(counter) + ".png"
 
 			if counter > 100:
-				image_save_path = path + "/" + image_filename + "_" + str(Time.get_unix_time_from_system()) + ".png"
+				save_path = path + "/" + image_filename + "_" + str(Time.get_unix_time_from_system()) + ".png"
 
-		image.save_png(image_save_path)
-		OS.shell_show_in_file_manager(image_save_path)
+		image.save_png(save_path)
+		OS.shell_show_in_file_manager(save_path)

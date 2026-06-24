@@ -6,6 +6,7 @@ const MAX_UNDO_COUNT = 64
 @export var canvas_dragger : CanvasDrag = null
 
 @export var rasterizer_texture : ViewportTexture = null
+
 var canvas_image : Image = null
 var canvas_texture : ImageTexture = null
 

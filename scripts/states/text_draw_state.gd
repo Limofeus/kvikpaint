@@ -19,7 +19,8 @@ func _unhandled_input(event):
 			return
 
 		var key_name = OS.get_keycode_string(event.key_label)
-		var key_string = str(char(event.unicode))
+		
+		var key_string = str(char(event.unicode)) if event.unicode > 0 else key_name
 
 		#print(key_name)
 		#print(str(event.unicode))
