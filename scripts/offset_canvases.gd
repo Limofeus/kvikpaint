@@ -12,6 +12,7 @@ class_name OffsetCanvases
 @export var _enable_hidden_expand : bool = true
 
 var selected_canvas_coords : Vector2i = Vector2i.ZERO
+
 var _lerp_dampen_target : Vector2 = Vector2.ZERO
 
 var _hidden_expand_vector : Vector2 = Vector2.ZERO

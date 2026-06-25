@@ -11,6 +11,7 @@ const CANVAS_NAME_COORDS_SEPARATOR = "_"
 @export var brush_controller : BrushController = null
 @export var palette_controller : PaletteController = null
 @export var canvas_controller : CanvasController = null
+var canvas_loader : CanvasLoader = CanvasLoader.new()
 
 @export var hint_node : Control = null
 
@@ -49,6 +50,7 @@ func apply_save_resource(save_resource : SaveResource) -> void:
 	brush_controller._brush_settings = save_resource.brush_settings
 	palette_controller.current_palette = save_resource.palette
 	
+	canvas_controller.set_canvas_loader(canvas_loader) #TODO: Продолжить завтра...
 	canvas_controller.set_canvas_offset(save_resource.selected_canvas)
 	canvas_controller.set_image(save_resource.canvas_image)
 

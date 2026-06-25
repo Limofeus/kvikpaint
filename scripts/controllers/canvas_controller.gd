@@ -37,6 +37,9 @@ func offset_canvas(offset : Vector2i):
 	print("New canvas offset: ", canvas_offset)
 	#TODO: Implement multiple canvases and canvas offset
 
+func set_canvas_loader(canvas_loader : CanvasLoader):
+	pass
+
 func set_canvas_offset(offset : Vector2i):
 	canvas_offset = offset
 	canvas_offseter.select_canvas(canvas_offset)
