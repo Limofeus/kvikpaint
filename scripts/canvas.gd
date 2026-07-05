@@ -15,6 +15,9 @@ var drawing_line = false
 var blur_mask : Image = null
 var undo_buffer : Array[Image] = []
 
+var is_clean : bool = false
+var is_altered : bool = false
+
 func _ready():
 	#canvas_image = Image.create(1600, 900, false, Image.FORMAT_RGBA8)
 	#canvas_image.fill(Color.WHITE)
@@ -32,11 +35,16 @@ func clear_canvas():
 	save_to_undo_buffer()
 	canvas_image.fill(Color.WHITE)
 	canvas_texture.update(canvas_image)
+	is_clean = true
+	is_altered = true
 
 func save_to_undo_buffer():
 	undo_buffer.append(canvas_image.duplicate())
 	if undo_buffer.size() > MAX_UNDO_COUNT:
 		undo_buffer.remove_at(0)
+
+func clear_undo_buffer():
+	undo_buffer.clear()
 
 func undo_last_draw():
 	if undo_buffer.size() > 0:
@@ -59,6 +67,8 @@ func get_image() -> Image:
 
 func apply_buffer(blur_edges : bool = false):
 	save_to_undo_buffer()
+	is_clean = false
+	is_altered = true
 
 	var rasterized_image = rasterizer_texture.get_image()
 	canvas_image.blend_rect(rasterized_image, Rect2(0, 0, 1600, 900), Vector2i.ZERO) #Change Rect2 dimensions to allow different size images

@@ -20,7 +20,7 @@ var thread_pool_mutex : Mutex = Mutex.new()
 
 func _ready():
 	#get_tree().set_auto_accept_quit(false) # :)
-	canvas_controller.changing_canvas.connect((save_current_canvas.bind(true).unbind(1)))
+	canvas_controller.changing_canvas.connect(on_canvas_controller_canvas_change)
 	canvas_loader.absolute_canvas_path_template = SAVED_CANVASES_PATH + CANVAS_NAME_TEMPLATE
 	
 	var save_resource = load_save_resource()
@@ -70,6 +70,13 @@ func save_to_file(save_resource : SaveResource) -> void:
 	#print(save_resource)
 	save_file.store_var(save_resource, true)
 	save_file.close()
+
+func on_canvas_controller_canvas_change(new_coords : Vector2i, is_altered : bool, is_clean : bool) -> void:
+	if is_altered:
+		if is_clean:
+			DirAccess.remove_absolute(SAVED_CANVASES_PATH + CANVAS_NAME_TEMPLATE % [new_coords.x, new_coords.y])
+		else:
+			save_current_canvas(true)
 
 func save_current_canvas(async_save : bool = false) -> void:
 	if async_save:

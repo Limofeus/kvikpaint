@@ -32,14 +32,22 @@ func set_canvas_loader(canvas_loader : CanvasLoader) -> void:
 	create_offset_canvas_grid(_grid_expand)
 
 func canvas_data_finished_loading(coords : Vector2i) -> void:
-	#_get_child_by_canvas_coords(coords).texture = _canvas_loader.request_canvas_data(coords)._canvas_texture
-	pass #TODO: do
+	var active_canvas = _get_child_by_canvas_coords(coords)
+	if active_canvas != null:
+		var canvas_data = _canvas_loader.request_canvas_data(coords)
+		canvas_data._canvas_load_mutex.lock()
+		update_canvas_texture(active_canvas, canvas_data._canvas_texture)
+		canvas_data._canvas_load_mutex.unlock()
+
+func update_canvas_texture(canvas_control : Control, texture : ImageTexture) -> void:
+	if texture == null:
+		canvas_control.self_modulate = Color(1.0, 1.0, 1.0, 0.0)
+	else:
+		canvas_control.self_modulate = Color.WHITE
+		canvas_control.texture = texture
 
 func dampen_to_target(target_position : Vector2, delta : float) -> void:
 	_lerp_dampen_target = StaticUtility.lerp_dampen(_lerp_dampen_target, target_position, _lerp_dampen_lambda, delta)
-	
-	_hidden_expand_vector.x = float(_lerp_dampen_target.x <= target_position.x) if _enable_hidden_expand else 0.0
-	_hidden_expand_vector.y = float(_lerp_dampen_target.y <= target_position.y) if _enable_hidden_expand else 0.0
 	
 	position = -(_lerp_dampen_target - (Vector2(selected_canvas_coords) * _canvas_spacing)) - (_hidden_expand_vector * _canvas_spacing)
 
@@ -76,16 +84,21 @@ func update_canvas_grid_data() -> void:
 	for i in range(-_grid_expand.x, _grid_expand.x + 1 + (int(_enable_hidden_expand))):
 		for j in range(-_grid_expand.y, _grid_expand.y + 1 + (int(_enable_hidden_expand))):
 			var coords = Vector2i(i, j) + selected_canvas_coords
-			var canvas_data = _canvas_loader.request_canvas_data(coords, true)
-			if canvas_data._canvas_texture != null:
-				_get_child_by_canvas_coords(coords).texture = canvas_data._canvas_texture
+			
+			var canvas_data = _canvas_loader.request_canvas_data(coords, false)
+			var active_canvas := _get_child_by_canvas_coords(coords)
+			if active_canvas == null:
+				continue
+
+			update_canvas_texture(active_canvas, canvas_data._canvas_texture)
 
 func _get_child_by_canvas_coords(coords : Vector2i) -> Control:
 	var relative_coords : Vector2i = coords - selected_canvas_coords
-	relative_coords -= Vector2i(_hidden_expand_vector)
 	relative_coords += Vector2i(_grid_expand)
-	var child_index = (relative_coords.y * _grid_expand.x) + relative_coords.x
-	if child_index >= get_child_count():
+	relative_coords += Vector2i(_hidden_expand_vector)
+	var child_index = (relative_coords.x * (_grid_expand.y * 2 + 1 + (int(_enable_hidden_expand)))) + relative_coords.y
+	
+	if child_index < 0 or child_index >= get_child_count():
 		return null
 	return get_child(child_index)
 
@@ -100,5 +113,10 @@ func scale_offset_canvses() -> void:
 		child_control.scale = Vector2.ONE * base_scale * rescale_after_curve * rescale_center
 
 func select_canvas(coords : Vector2i, smoothing : bool = true) -> void:
+	_hidden_expand_vector.x = float(selected_canvas_coords.x <= coords.x) if _enable_hidden_expand else 0.0
+	_hidden_expand_vector.y = float(selected_canvas_coords.y <= coords.y) if _enable_hidden_expand else 0.0
+	
 	selected_canvas_coords = coords
 	canvas_coords_label.text = str(selected_canvas_coords)
+
+	update_canvas_grid_data.call_deferred()

@@ -7,7 +7,7 @@ class_name CanvasController
 var canvas_offset : Vector2i = Vector2i.ZERO
 var _canvas_loader : CanvasLoader = null
 
-signal changing_canvas(new_coords : Vector2i)
+signal changing_canvas(change_coords : Vector2i, is_altered : bool, is_clean : bool)
 
 @onready var image_save_path : String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 
@@ -38,9 +38,13 @@ func _input(event: InputEvent) -> void:
 func offset_canvas(offset : Vector2i):
 	if offset == Vector2i.ZERO:
 		return
-	changing_canvas.emit(offset)
-	print("Preparing to set image of canvas with coords: ", canvas_offset)
-	_canvas_loader.set_canvas_data_image(canvas_offset, get_image())
+	changing_canvas.emit(canvas_offset, canvas.is_altered, canvas.is_clean)
+	
+	if canvas.is_altered:
+		if canvas.is_clean:
+			_canvas_loader.set_canvas_data_image(canvas_offset, null)
+		else:
+			_canvas_loader.set_canvas_data_image(canvas_offset, get_image())
 	
 	set_canvas_offset(canvas_offset + offset)
 	print("New canvas offset: ", canvas_offset)
@@ -64,6 +68,8 @@ func set_canvas_offset(offset : Vector2i):
 
 func set_image(image : Image):
 	canvas.set_image(image)
+	canvas.is_altered = false
+	canvas.is_clean = false
 
 func get_image() -> Image:
 	return canvas.get_image()
