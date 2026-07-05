@@ -11,19 +11,29 @@ class_name OffsetCanvases
 
 @export var _enable_hidden_expand : bool = true
 
+var _canvas_loader : CanvasLoader = null
 var selected_canvas_coords : Vector2i = Vector2i.ZERO
 
 var _lerp_dampen_target : Vector2 = Vector2.ZERO
 
 var _hidden_expand_vector : Vector2 = Vector2.ZERO
 
-func _ready() -> void:
-	create_offset_canvas_grid(_grid_expand)
+#func _ready() -> void:
+	#create_offset_canvas_grid(_grid_expand)
 
 func _process(delta: float) -> void:
 	dampen_to_target(Vector2(selected_canvas_coords) * _canvas_spacing, delta)
 	scale_offset_canvses()
 	dampen_transparency_target(float(Input.is_action_pressed("ctrl_modifier_key")), delta)
+
+func set_canvas_loader(canvas_loader : CanvasLoader) -> void:
+	_canvas_loader = canvas_loader
+	_canvas_loader.canvas_finished_loading.connect(canvas_data_finished_loading)
+	create_offset_canvas_grid(_grid_expand)
+
+func canvas_data_finished_loading(coords : Vector2i) -> void:
+	#_get_child_by_canvas_coords(coords).texture = _canvas_loader.request_canvas_data(coords)._canvas_texture
+	pass #TODO: do
 
 func dampen_to_target(target_position : Vector2, delta : float) -> void:
 	_lerp_dampen_target = StaticUtility.lerp_dampen(_lerp_dampen_target, target_position, _lerp_dampen_lambda, delta)
@@ -61,6 +71,23 @@ func create_offset_canvas_grid(grid_expand : Vector2i) -> void:
 			texture_rect.scale = Vector2.ONE * scale * rescale_after_curve
 
 			texture_rect.position = _canvas_spacing * Vector2(coords)
+
+func update_canvas_grid_data() -> void:
+	for i in range(-_grid_expand.x, _grid_expand.x + 1 + (int(_enable_hidden_expand))):
+		for j in range(-_grid_expand.y, _grid_expand.y + 1 + (int(_enable_hidden_expand))):
+			var coords = Vector2i(i, j) + selected_canvas_coords
+			var canvas_data = _canvas_loader.request_canvas_data(coords, true)
+			if canvas_data._canvas_texture != null:
+				_get_child_by_canvas_coords(coords).texture = canvas_data._canvas_texture
+
+func _get_child_by_canvas_coords(coords : Vector2i) -> Control:
+	var relative_coords : Vector2i = coords - selected_canvas_coords
+	relative_coords -= Vector2i(_hidden_expand_vector)
+	relative_coords += Vector2i(_grid_expand)
+	var child_index = (relative_coords.y * _grid_expand.x) + relative_coords.x
+	if child_index >= get_child_count():
+		return null
+	return get_child(child_index)
 
 func scale_offset_canvses() -> void:
 	for child_control : Control in get_children():

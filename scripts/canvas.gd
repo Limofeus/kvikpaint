@@ -16,11 +16,11 @@ var blur_mask : Image = null
 var undo_buffer : Array[Image] = []
 
 func _ready():
-	canvas_image = Image.create(1600, 900, false, Image.FORMAT_RGBA8)
-	canvas_image.fill(Color.WHITE)
+	#canvas_image = Image.create(1600, 900, false, Image.FORMAT_RGBA8)
+	#canvas_image.fill(Color.WHITE)
 	#canvas_image.generate_mipmaps() #Leave that out until zoom is implemented
-	canvas_texture = ImageTexture.create_from_image(canvas_image)
-	texture = canvas_texture
+	#canvas_texture = ImageTexture.create_from_image(canvas_image)
+	#texture = canvas_texture
 
 	blur_mask = Image.create(1600, 900, false, Image.FORMAT_RGBA8)
 	blur_mask.fill(Color(0.1, 0.1, 0.1, 0.1))
@@ -45,9 +45,16 @@ func undo_last_draw():
 
 func set_image(image : Image):
 	canvas_image = image
-	canvas_texture.update(canvas_image)
+	if canvas_texture != null:
+		canvas_texture.update(canvas_image)
+	else:
+		print("Creating canvas texture")
+		canvas_texture = ImageTexture.create_from_image(canvas_image)
+		texture = canvas_texture
 
 func get_image() -> Image:
+	if canvas_image == null:
+		return null
 	return canvas_image.duplicate()
 
 func apply_buffer(blur_edges : bool = false):

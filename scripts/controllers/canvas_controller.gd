@@ -5,6 +5,9 @@ class_name CanvasController
 @export var canvas_offseter : OffsetCanvases = null
 
 var canvas_offset : Vector2i = Vector2i.ZERO
+var _canvas_loader : CanvasLoader = null
+
+signal changing_canvas(new_coords : Vector2i)
 
 @onready var image_save_path : String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 
@@ -33,19 +36,34 @@ func _input(event: InputEvent) -> void:
 				offset_canvas(Vector2i.UP)
 
 func offset_canvas(offset : Vector2i):
+	if offset == Vector2i.ZERO:
+		return
+	changing_canvas.emit(offset)
+	print("Preparing to set image of canvas with coords: ", canvas_offset)
+	_canvas_loader.set_canvas_data_image(canvas_offset, get_image())
+	
 	set_canvas_offset(canvas_offset + offset)
 	print("New canvas offset: ", canvas_offset)
-	#TODO: Implement multiple canvases and canvas offset
 
 func set_canvas_loader(canvas_loader : CanvasLoader):
-	pass
+	_canvas_loader = canvas_loader
+	canvas_offseter.set_canvas_loader(canvas_loader)
 
 func set_canvas_offset(offset : Vector2i):
 	canvas_offset = offset
 	canvas_offseter.select_canvas(canvas_offset)
+	
+	var canvas_data = _canvas_loader.request_canvas_data(canvas_offset, true)
+	var new_image = canvas_data._canvas_image
+	if new_image == null:
+		new_image = Image.create(1600, 900, false, Image.FORMAT_RGBA8)
+		new_image.fill(Color.WHITE)
+	else:
+		new_image = new_image.duplicate()
+	set_image(new_image)
 
 func set_image(image : Image):
-	canvas.call_deferred("set_image", image)
+	canvas.set_image(image)
 
 func get_image() -> Image:
 	return canvas.get_image()
