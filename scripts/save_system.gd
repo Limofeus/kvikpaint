@@ -24,9 +24,14 @@ func _ready():
 	canvas_loader.absolute_canvas_path_template = SAVED_CANVASES_PATH + CANVAS_NAME_TEMPLATE
 	
 	var save_resource = load_save_resource()
-	save_resource = apply_backward_compatibility(save_resource)
 	if save_resource != null:
+		save_resource = apply_backward_compatibility(save_resource)
 		apply_save_resource(save_resource)
+	else:
+		hint_node.visible = true
+		canvas_controller.set_canvas_loader(canvas_loader)
+		canvas_controller.set_canvas_offset(Vector2i.ZERO)
+
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -122,6 +127,9 @@ func load_canvases_filenames() -> PackedStringArray:
 	return DirAccess.get_files_at(SAVED_CANVASES_PATH)
 
 func apply_backward_compatibility(save_resource : SaveResource) -> SaveResource:
+	if save_resource == null:
+		print("No save resource")
+		return null
 	if save_resource.save_file_version != SAVE_SYSTEM_VERSION:
 		print("Save file version mismatch: Save file version: %s, Current version: %s" % [save_resource.save_file_version, SAVE_SYSTEM_VERSION])
 	if not "selected_canvas" in save_resource:

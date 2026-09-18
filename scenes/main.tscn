@@ -334,7 +334,6 @@ size_flags_stretch_ratio = 8.0
 mouse_filter = 2
 
 [node name="Hint" type="Control" parent="InterfaceLayer" unique_id=970505254]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -403,6 +402,7 @@ Text size is multiple of your brush size, configure it via top panel
 Navigation:
 MMB - Pan around
 Scroll Wheel - Zoom
+Ctrl + Arrow Keys - Switch canvas
 
 Utility:
 Ctrl + Z - Undo
