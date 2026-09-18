@@ -1,6 +1,8 @@
 extends Node
 class_name CanvasController
 
+const CLIPBOARD_IMAGE_PATH := &"user://clipboard_image.png"
+
 @export var canvas : Canvas = null
 @export var canvas_offseter : OffsetCanvases = null
 
@@ -14,8 +16,9 @@ signal changing_canvas(change_coords : Vector2i, is_altered : bool, is_clean : b
 func _input(event: InputEvent) -> void:
 	if Input.is_action_pressed("ctrl_modifier_key"):
 		if Input.is_action_just_pressed("copy_image"):
-			DisplayServer.clipboard_set("Sorry, Godot can't copy images yet, so like in MS Paint you'll have to use screenshot hotkey for now, I'll update the app when support for copying images is added!")
-		
+			#DisplayServer.clipboard_set("Sorry, Godot can't copy images yet, so like in MS Paint you'll have to use screenshot hotkey for now, I'll update the app when support for copying images is added!")
+			image_to_clipboard()
+
 		if Input.is_action_just_pressed("undo_draw"):
 			canvas.undo_last_draw()
 
@@ -34,6 +37,30 @@ func _input(event: InputEvent) -> void:
 				offset_canvas(Vector2i.DOWN)
 			if Input.is_action_just_pressed("arrow_up"):
 				offset_canvas(Vector2i.UP)
+
+func image_to_clipboard() -> void:
+	
+	var image = get_image()
+
+	image.save_png(CLIPBOARD_IMAGE_PATH)
+	var path =ProjectSettings.globalize_path(CLIPBOARD_IMAGE_PATH)
+
+	#put image into os clipboard
+	var ps_cmd := ["-STA", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+
+	var pwsh_script := """
+	Add-Type -AssemblyName System.Windows.Forms
+	Add-Type -AssemblyName System.Drawing
+	$full = (Get-Item -LiteralPath '%PATH%').FullName
+	$img  = [System.Drawing.Image]::FromFile($full)
+	[System.Windows.Forms.Clipboard]::SetImage($img)
+	"""
+
+	var safe_path = path.replace("'", "''")
+	pwsh_script = pwsh_script.replace("%PATH%", safe_path)
+
+	var args = PackedStringArray(ps_cmd + [pwsh_script])
+	OS.execute_with_pipe("powershell.exe", args)
 
 func offset_canvas(offset : Vector2i):
 	if offset == Vector2i.ZERO:
