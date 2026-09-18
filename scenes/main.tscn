@@ -174,7 +174,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 theme_type_variation = &"HintLabel"
-text = "v0.1"
+text = "v0.2.1"
 
 [node name="TextureRect" type="TextureRect" parent="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftContainer/MarginContainer" unique_id=800963092]
 modulate = Color(1, 1, 1, 0)
@@ -334,6 +334,7 @@ size_flags_stretch_ratio = 8.0
 mouse_filter = 2
 
 [node name="Hint" type="Control" parent="InterfaceLayer" unique_id=970505254]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
