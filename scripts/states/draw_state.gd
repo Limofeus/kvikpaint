@@ -9,3 +9,6 @@ func _on_exit():
 
 func _set_current():
 	state_machine.change_state(self)
+
+func _set_state_lock(lock : bool):
+	state_machine.state_locked = lock

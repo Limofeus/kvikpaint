@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cpq52kqlysl1w"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cpq52kqlysl1w"]
 
-[ext_resource type="Shader" path="res://shaders/brush_circle.gdshader" id="1_rr82s"]
+[ext_resource type="Shader" uid="uid://dmqk7001e5ao0" path="res://shaders/brush_circle.gdshader" id="1_rr82s"]
 
 [resource]
 shader = ExtResource("1_rr82s")

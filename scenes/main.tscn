@@ -6,7 +6,7 @@
 [ext_resource type="Material" uid="uid://8iymp66f7e53" path="res://materials/background.tres" id="1_ov0sy"]
 [ext_resource type="Script" uid="uid://d1h6lcefb0nfo" path="res://scripts/canvas_drag.gd" id="1_wfir0"]
 [ext_resource type="Script" uid="uid://o34fmlaf5pd5" path="res://scripts/draw_state_machine.gd" id="2_4xh4x"]
-[ext_resource type="Script" uid="uid://f58iocbodv0l" path="res://scripts/brush_display.gd" id="2_bn8pl"]
+[ext_resource type="Script" uid="uid://f58iocbodv0l" path="res://scripts/ui/brush_display.gd" id="2_bn8pl"]
 [ext_resource type="Script" uid="uid://bdcmoa5guty76" path="res://scripts/controllers/palette_controller.gd" id="2_spxst"]
 [ext_resource type="Script" uid="uid://coijqydpeh0d7" path="res://scripts/controllers/canvas_controller.gd" id="2_unryf"]
 [ext_resource type="Material" uid="uid://cpq52kqlysl1w" path="res://materials/brush_circle.tres" id="3_prlbf"]
@@ -31,13 +31,298 @@
 [ext_resource type="Script" uid="uid://dtvdat5beotuc" path="res://scripts/ui/unfocus_spin_box.gd" id="14_7ugbr"]
 [ext_resource type="Material" uid="uid://bph2trvf3f7pf" path="res://materials/ui_blur.tres" id="15_xqo4d"]
 [ext_resource type="Script" uid="uid://btofnss3qn32w" path="res://scripts/ui/hint_popup.gd" id="16_8ryww"]
+[ext_resource type="Shader" uid="uid://csq2b681v51mf" path="res://shaders/invert_color.gdshader" id="20_dgi5k"]
+[ext_resource type="Script" uid="uid://7300gsr8ebh1" path="res://scripts/ui/box_select_display.gd" id="20_fuf3a"]
+[ext_resource type="StyleBox" uid="uid://d2sar86vn5vvg" path="res://resources/styles/ui/panels/box_select_display.tres" id="21_j8jky"]
+[ext_resource type="StyleBox" uid="uid://cswhsaejtjdte" path="res://resources/styles/ui/panels/box_select_circle.tres" id="22_j8jky"]
+[ext_resource type="Script" uid="uid://bpr10yqcwqmld" path="res://scripts/ui/pointer_display.gd" id="24_c6pm6"]
 [ext_resource type="Script" uid="uid://drasqbwaxvs2l" path="res://scripts/offset_canvases.gd" id="31_qkpxi"]
+[ext_resource type="Script" uid="uid://drmvi72sgdf3v" path="res://scripts/states/box_select_state.gd" id="35_pibwh"]
+[ext_resource type="Script" uid="uid://dexd05nyartaj" path="res://scripts/states/pointer_state.gd" id="36_pibwh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j8jky"]
+shader = ExtResource("20_dgi5k")
+
+[sub_resource type="Gradient" id="Gradient_c6pm6"]
+colors = PackedColorArray(18.892157, 18.892157, 18.892157, 0, 1, 1, 1, 1)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2qm6d"]
 size = Vector2(512, 512)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i438q"]
+bg_color = Color(0.8, 0.8, 0.8, 0.15686275)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5he1u"]
+bg_color = Color(0.09765625, 0.09765625, 0.09765625, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 1
+border_color = Color(0.0703125, 0.0703125, 0.0703125, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6pm6"]
+bg_color = Color(0.3125, 0.3125, 0.3125, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.16796875, 0.16796875, 0.16796875, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5poiv"]
+bg_color = Color(0.09765625, 0.09765625, 0.09765625, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0703125, 0.0703125, 0.0703125, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cjbq"]
+bg_color = Color(0.79296875, 0.5383755, 0.35508654, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.16796875, 0.113981046, 0.08316818, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chjal"]
+bg_color = Color(0.7265625, 0.7265625, 0.7265625, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4375, 0.4375, 0.4375, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjqg0"]
+bg_color = Color(0.09765625, 0.09765625, 0.09765625, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0703125, 0.0703125, 0.0703125, 1)
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_top = 1.0
+
+[sub_resource type="Animation" id="Animation_vchkt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/PointerLid:offset_transform_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer/Pointer/Battery:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1.9268333e-14, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_txyw0"]
+resource_name = "add_battery"
+length = 1.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/PointerLid:offset_transform_rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.2, 1.45),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-1.9547688, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer/Pointer/Battery:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.8)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(2, 0),
+"points": PackedFloat32Array(75, 0, 0, 0.20178908, -2.8559647, 1.9268333e-14, -0.2482109, 59.725594, 0, 0),
+"times": PackedFloat32Array(0.55, 1.05)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+
+[sub_resource type="Animation" id="Animation_vc5cj"]
+resource_name = "remove_battery"
+length = 1.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/PointerLid:offset_transform_rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -1.9547688]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer/Pointer/Battery:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.8)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1.9268333e-14, -0.25, 0, 0.25, 77, 75, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.8)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("VBoxContainer/Pointer/Battery:offset_transform_rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(2, 2, 0),
+"points": PackedFloat32Array(-0.00046684407, 0, 0, 0.15000004, -0.018385613, -0.13962634, -0.14999998, -0.02018249, 0.16329569, 0.021971429, 1.134464, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.7, 1, 1.5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nvyfr"]
+_data = {
+&"RESET": SubResource("Animation_vchkt"),
+&"add_battery": SubResource("Animation_txyw0"),
+&"remove_battery": SubResource("Animation_vc5cj")
+}
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_ierx3"]
 viewport_path = NodePath("Rasterizer")
+
+[sub_resource type="Curve" id="Curve_c6pm6"]
+_limits = [0.0, 1.0, 0.0, 100.0]
+_data = [Vector2(0, 0), 0.0, 0.01, 0, 0, Vector2(65, 0.2), 0.0, 0.0, 0, 0, Vector2(100, 1), 0.05, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_weoy1"]
 viewport_path = NodePath("Rasterizer")
@@ -133,6 +418,100 @@ texture = ExtResource("5_s8up8")
 expand_mode = 1
 flip_h = true
 
+[node name="BoxSelectDisplay" type="Control" parent="InterfaceLayer" unique_id=1342877148 node_paths=PackedStringArray("box_select_state", "canvas_dragger")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("20_fuf3a")
+box_select_state = NodePath("../../CanvasDrag/Canvas/DrawStateMachine/BoxSelectState")
+canvas_dragger = NodePath("../../CanvasDrag")
+
+[node name="SelectionBorder" type="Panel" parent="InterfaceLayer/BoxSelectDisplay" unique_id=336331932]
+material = ExtResource("5_ipkgq")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("21_j8jky")
+
+[node name="CornerCircle1" type="Panel" parent="InterfaceLayer/BoxSelectDisplay/SelectionBorder" unique_id=1284605443]
+material = SubResource("ShaderMaterial_j8jky")
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+theme_override_styles/panel = ExtResource("22_j8jky")
+
+[node name="CornerCircle2" type="Panel" parent="InterfaceLayer/BoxSelectDisplay/SelectionBorder" unique_id=2134009274]
+material = SubResource("ShaderMaterial_j8jky")
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+theme_override_styles/panel = ExtResource("22_j8jky")
+
+[node name="CornerCircle3" type="Panel" parent="InterfaceLayer/BoxSelectDisplay/SelectionBorder" unique_id=822630907]
+material = SubResource("ShaderMaterial_j8jky")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+theme_override_styles/panel = ExtResource("22_j8jky")
+
+[node name="CornerCircle4" type="Panel" parent="InterfaceLayer/BoxSelectDisplay/SelectionBorder" unique_id=684462543]
+material = SubResource("ShaderMaterial_j8jky")
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+theme_override_styles/panel = ExtResource("22_j8jky")
+
+[node name="PointerDisplay" type="Control" parent="InterfaceLayer" unique_id=695514908 node_paths=PackedStringArray("main_pointer_line", "pointer_display")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("24_c6pm6")
+main_pointer_line = NodePath("PointerLine")
+pointer_display = NodePath("../../CanvasDrag/Canvas/DrawStateMachine/PointerState")
+
+[node name="PointerLine" type="Line2D" parent="InterfaceLayer/PointerDisplay" unique_id=1755992720]
+width = 5.0
+gradient = SubResource("Gradient_c6pm6")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
 [node name="MarginContainer" type="MarginContainer" parent="InterfaceLayer" unique_id=1529421608]
 anchors_preset = 15
 anchor_right = 1.0
@@ -147,6 +526,7 @@ theme_override_constants/margin_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="InterfaceLayer/MarginContainer" unique_id=2101705664]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="InterfaceLayer/MarginContainer/VBoxContainer" unique_id=1778548492]
 layout_mode = 2
@@ -174,7 +554,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 theme_type_variation = &"HintLabel"
-text = "v0.2.2"
+text = "v0.2.3"
 
 [node name="TextureRect" type="TextureRect" parent="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftContainer/MarginContainer" unique_id=800963092]
 modulate = Color(1, 1, 1, 0)
@@ -333,6 +713,175 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 mouse_filter = 2
 
+[node name="PointerRecharge" type="Control" parent="InterfaceLayer" unique_id=1827296034]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(75, 135)
+layout_mode = 3
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -67.5
+offset_bottom = 67.5
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Background" type="Panel" parent="InterfaceLayer/PointerRecharge" unique_id=1076961601]
+custom_minimum_size = Vector2(35, 115)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i438q")
+
+[node name="LowPowerLabel" type="Label" parent="InterfaceLayer/PointerRecharge" unique_id=532748535]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -22.5
+offset_right = 73.0
+offset_bottom = 0.5
+grow_vertical = 2
+rotation = -1.5707964
+pivot_offset_ratio = Vector2(0.5, 1)
+theme_override_colors/font_color = Color(1, 0, 0.10920906, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 15
+text = "LOW POWER"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InterfaceLayer/PointerRecharge" unique_id=1556440290]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Pointer" type="Panel" parent="InterfaceLayer/PointerRecharge/VBoxContainer" unique_id=1588088359]
+custom_minimum_size = Vector2(20, 90)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5he1u")
+
+[node name="PointerButton" type="Panel" parent="InterfaceLayer/PointerRecharge/VBoxContainer/Pointer" unique_id=1644520243]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -20.0
+offset_right = 6.0
+offset_bottom = -7.9999924
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c6pm6")
+
+[node name="Battery" type="Panel" parent="InterfaceLayer/PointerRecharge/VBoxContainer/Pointer" unique_id=1775136414]
+z_index = -1
+custom_minimum_size = Vector2(15, 35)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = 5.0
+offset_right = 7.500002
+offset_bottom = 40.00003
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 1.9268333e-14)
+offset_transform_pivot_ratio = Vector2(0.5, 2)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5poiv")
+
+[node name="BatteryTop" type="Panel" parent="InterfaceLayer/PointerRecharge/VBoxContainer/Pointer/Battery" unique_id=632000787]
+z_index = -1
+custom_minimum_size = Vector2(15, 20)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -32.5
+offset_right = 7.5
+offset_bottom = -12.499962
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+offset_transform_position = Vector2(0, 68.195)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2cjbq")
+
+[node name="BatteryTerminal" type="Panel" parent="InterfaceLayer/PointerRecharge/VBoxContainer/Pointer/Battery/BatteryTop" unique_id=1017508095]
+z_index = -1
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chjal")
+
+[node name="PointerLid" type="Panel" parent="InterfaceLayer/PointerRecharge/VBoxContainer" unique_id=2088116881]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_pivot_ratio = Vector2(1, 0)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjqg0")
+
+[node name="RechargeButton" type="Button" parent="InterfaceLayer/PointerRecharge" unique_id=1115048912]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InterfaceLayer/PointerRecharge" unique_id=1294218500]
+libraries/ = SubResource("AnimationLibrary_nvyfr")
+
 [node name="Hint" type="Control" parent="InterfaceLayer" unique_id=970505254]
 visible = false
 layout_mode = 3
@@ -416,6 +965,7 @@ anchor_mode = 0
 [node name="CanvasDrag" type="Control" parent="." unique_id=193984835 node_paths=PackedStringArray("camera", "canvas_holder")]
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2
 script = ExtResource("1_wfir0")
 camera = NodePath("../Camera2D")
 canvas_holder = NodePath(".")
@@ -454,6 +1004,23 @@ state_machine = NodePath("..")
 
 [node name="StopDrawing" type="Node" parent="CanvasDrag/Canvas/DrawStateMachine" unique_id=2027860046 node_paths=PackedStringArray("state_machine")]
 script = ExtResource("4_3123q")
+state_machine = NodePath("..")
+
+[node name="BoxSelectState" type="Node" parent="CanvasDrag/Canvas/DrawStateMachine" unique_id=389975023 node_paths=PackedStringArray("stop_draw_state", "canvas", "state_machine")]
+script = ExtResource("35_pibwh")
+stop_draw_state = NodePath("../StopDrawing")
+canvas = NodePath("../..")
+state_machine = NodePath("..")
+
+[node name="PointerState" type="Node" parent="CanvasDrag/Canvas/DrawStateMachine" unique_id=1343611405 node_paths=PackedStringArray("brush_controller", "pointer_line", "pointer_recharge_control", "pointer_recharge_button", "pointer_animation_player", "pointer_low_power_label", "state_machine")]
+script = ExtResource("36_pibwh")
+brush_controller = NodePath("../../../../BrushController")
+pointer_line = NodePath("../../../../InterfaceLayer/PointerDisplay/PointerLine")
+charge_to_brightness_curve = SubResource("Curve_c6pm6")
+pointer_recharge_control = NodePath("../../../../InterfaceLayer/PointerRecharge")
+pointer_recharge_button = NodePath("../../../../InterfaceLayer/PointerRecharge/RechargeButton")
+pointer_animation_player = NodePath("../../../../InterfaceLayer/PointerRecharge/AnimationPlayer")
+pointer_low_power_label = NodePath("../../../../InterfaceLayer/PointerRecharge/LowPowerLabel")
 state_machine = NodePath("..")
 
 [node name="RasterizerPreview" type="TextureRect" parent="CanvasDrag" unique_id=631333703]

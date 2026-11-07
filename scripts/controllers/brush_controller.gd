@@ -52,6 +52,9 @@ func apply_brush_settings(brush_setting : BrushSettings):
 	apply_brush_color(brush_setting.brush_color)
 	apply_brush_size(brush_setting.brush_size, brush_setting.brush_text_size_mult)
 
+func get_brush_settings() -> BrushSettings:
+	return _brush_settings
+
 func apply_brush_color(brush_color : Color):
 	main_draw_state.line_color = brush_color
 	text_buffer.set("theme_override_colors/font_color", brush_color)

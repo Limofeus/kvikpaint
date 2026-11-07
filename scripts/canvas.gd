@@ -31,6 +31,9 @@ func _ready():
 func get_canvas_coordinates(point : Vector2):
 	return canvas_dragger.get_canvas_coordinates(point)
 
+func get_viewport_coordinates(point : Vector2):
+	return canvas_dragger.get_viewport_coordinates(point)
+
 func clear_canvas():
 	save_to_undo_buffer()
 	canvas_image.fill(Color.WHITE)

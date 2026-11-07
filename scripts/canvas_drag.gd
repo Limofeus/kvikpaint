@@ -1,6 +1,8 @@
 extends Node
 class_name CanvasDrag
 
+const ZOOM_AMOUNT : float = 0.2
+
 @export var camera : Camera2D = null
 @export var canvas_holder : Control = null
 
@@ -11,7 +13,7 @@ var camera_zoom : float = 1.0
 var canvas_pos : Vector2 = Vector2.ZERO
 var is_dragging : bool = false
 
-const ZOOM_AMMOUNT : float = 0.2
+signal canvas_moved()
 
 func _input(event):
 	is_dragging = Input.is_action_pressed("drag_canvas")
@@ -25,10 +27,10 @@ func _input(event):
 
 	if event is InputEventMouseButton and event.pressed:
 		if Input.is_action_just_pressed("zoom_in"):
-			camera_zoom_linear += ZOOM_AMMOUNT
+			camera_zoom_linear += ZOOM_AMOUNT
 			update_camera_zoom()
 		elif Input.is_action_just_pressed("zoom_out"):
-			camera_zoom_linear -= ZOOM_AMMOUNT
+			camera_zoom_linear -= ZOOM_AMOUNT
 			update_camera_zoom()
 
 func update_camera_zoom():
@@ -48,6 +50,7 @@ func update_camera_zoom():
 func update_canvas_pos():
 	canvas_holder.position = canvas_pos
 	update_canv_shader()
+	canvas_moved.emit()
 
 func update_canv_shader():	
 	if background_shader != null:
@@ -58,3 +61,6 @@ func update_canv_shader():
 
 func get_canvas_coordinates(point : Vector2):
 	return (Vector2(point.x, point.y) / camera_zoom) - canvas_pos
+
+func get_viewport_coordinates(point : Vector2):
+	return (Vector2(point.x, point.y) + canvas_pos) * camera_zoom

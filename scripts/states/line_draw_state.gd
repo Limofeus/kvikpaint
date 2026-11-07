@@ -8,7 +8,7 @@ class_name LineDrawState
 var mouse_button = MOUSE_BUTTON_LEFT
 
 func _unhandled_input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and !Input.is_action_pressed("alt_modifier_key"):
 		if event.button_index == mouse_button and event.pressed:
 			super._set_current()
 			line_buffer.default_color = line_color
