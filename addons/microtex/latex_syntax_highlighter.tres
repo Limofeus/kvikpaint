@@ -1,0 +1,16 @@
+[gd_resource type="SyntaxHighlighter" script_class="LaTeXSyntaxHighlighter" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/microtex/latex_syntax_highlighter.gd" id="1_hl"]
+
+[resource]
+script = ExtResource("1_hl")
+text_color = Color(0.92, 0.94, 0.98, 1)
+comment_color = Color(0.42, 0.62, 0.96, 1)
+environment_command_color = Color(0.95, 0.42, 0.45, 1)
+environment_name_color = Color(0.28, 0.82, 0.8, 1)
+command_color = Color(0.35, 0.84, 0.52, 1)
+symbol_color = Color(0.94, 0.56, 0.72, 1)
+line_break_color = Color(0.68, 0.58, 0.98, 1)
+brace_color = Color(0.96, 0.78, 0.36, 1)
+operator_color = Color(0.48, 0.78, 0.98, 1)
+number_color = Color(0.98, 0.66, 0.38, 1)

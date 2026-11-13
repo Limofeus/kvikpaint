@@ -36,9 +36,12 @@
 [ext_resource type="StyleBox" uid="uid://d2sar86vn5vvg" path="res://resources/styles/ui/panels/box_select_display.tres" id="21_j8jky"]
 [ext_resource type="StyleBox" uid="uid://cswhsaejtjdte" path="res://resources/styles/ui/panels/box_select_circle.tres" id="22_j8jky"]
 [ext_resource type="Script" uid="uid://bpr10yqcwqmld" path="res://scripts/ui/pointer_display.gd" id="24_c6pm6"]
+[ext_resource type="Script" uid="uid://da0um7lcyn6du" path="res://scripts/ui/latex_edit_display.gd" id="27_2cjbq"]
+[ext_resource type="Script" uid="uid://qbvyro3f4lvt" path="res://addons/microtex/latex_syntax_highlighter.gd" id="27_5poiv"]
 [ext_resource type="Script" uid="uid://drasqbwaxvs2l" path="res://scripts/offset_canvases.gd" id="31_qkpxi"]
 [ext_resource type="Script" uid="uid://drmvi72sgdf3v" path="res://scripts/states/box_select_state.gd" id="35_pibwh"]
 [ext_resource type="Script" uid="uid://dexd05nyartaj" path="res://scripts/states/pointer_state.gd" id="36_pibwh"]
+[ext_resource type="Script" uid="uid://btvgj0u3o60eb" path="res://scripts/states/latex_draw_state.gd" id="38_5he1u"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j8jky"]
 shader = ExtResource("20_dgi5k")
@@ -48,6 +51,104 @@ colors = PackedColorArray(18.892157, 18.892157, 18.892157, 0, 1, 1, 1, 1)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2qm6d"]
 size = Vector2(512, 512)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vchkt"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vc5cj"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0.6)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvyfr"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.22, 0.22, 0.22, 0.6)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ty1g6"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3019608)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2jfr"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txyw0"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.05, 0.05, 0.05, 0.78431374)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjg73"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_right = 4
+border_width_bottom = 2
+border_color = Color(0.6685437, 0.75140774, 1, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_detail = 5
+expand_margin_right = 2.0
+
+[sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_5he1u"]
+script = ExtResource("27_5poiv")
+metadata/_custom_type_script = "uid://qbvyro3f4lvt"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i438q"]
 bg_color = Color(0.8, 0.8, 0.8, 0.15686275)
@@ -713,6 +814,59 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 mouse_filter = 2
 
+[node name="LatexEditDisplay" type="Control" parent="InterfaceLayer" unique_id=576755885 node_paths=PackedStringArray("drag_button")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 321.0
+offset_top = 228.0
+offset_right = 321.0
+offset_bottom = 228.0
+script = ExtResource("27_2cjbq")
+drag_button = NodePath("HBoxContainer/Button")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InterfaceLayer/LatexEditDisplay" unique_id=1935180033]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 31.0
+theme_override_constants/separation = 0
+
+[node name="Button" type="Button" parent="InterfaceLayer/LatexEditDisplay/HBoxContainer" unique_id=751576733]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_vchkt")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vc5cj")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nvyfr")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ty1g6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_j2jfr")
+text = "⋮"
+icon_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="InterfaceLayer/LatexEditDisplay/HBoxContainer" unique_id=2102598298]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_txyw0")
+theme_override_styles/focus = SubResource("StyleBoxFlat_bjg73")
+text = "testtesttesttesttesttest test"
+context_menu_enabled = false
+emoji_menu_enabled = false
+scroll_fit_content_height = true
+scroll_fit_content_width = true
+syntax_highlighter = SubResource("SyntaxHighlighter_5he1u")
+
+[node name="ErrorLabek" type="Label" parent="InterfaceLayer/LatexEditDisplay/HBoxContainer/TextEdit" unique_id=113177016]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_right = 217.0
+offset_bottom = 23.000042
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.3, 0.33500016, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.39215687)
+theme_override_constants/outline_size = 4
+text = "ERR: Something gone wrong"
+
 [node name="PointerRecharge" type="Control" parent="InterfaceLayer" unique_id=1827296034]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(75, 135)
@@ -1023,6 +1177,14 @@ pointer_animation_player = NodePath("../../../../InterfaceLayer/PointerRecharge/
 pointer_low_power_label = NodePath("../../../../InterfaceLayer/PointerRecharge/LowPowerLabel")
 state_machine = NodePath("..")
 
+[node name="LatexEquationState" type="Node" parent="CanvasDrag/Canvas/DrawStateMachine" unique_id=803524997 node_paths=PackedStringArray("latex_render_recs", "latex_text_field", "brush_controller", "error_label", "state_machine")]
+script = ExtResource("38_5he1u")
+latex_render_recs = NodePath("../../../../Rasterizer/LatexRender")
+latex_text_field = NodePath("../../../../InterfaceLayer/LatexEditDisplay/HBoxContainer/TextEdit")
+brush_controller = NodePath("../../../../BrushController")
+error_label = NodePath("../../../../InterfaceLayer/LatexEditDisplay/HBoxContainer/TextEdit/ErrorLabek")
+state_machine = NodePath("..")
+
 [node name="RasterizerPreview" type="TextureRect" parent="CanvasDrag" unique_id=631333703]
 layout_mode = 0
 offset_right = 1600.0
@@ -1074,6 +1236,10 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0.764575, 1, 1)
 theme_override_font_sizes/font_size = 15
 vertical_alignment = 1
+
+[node name="LatexRender" type="TextureRect" parent="Rasterizer" unique_id=173366463]
+offset_right = 40.0
+offset_bottom = 40.0
 
 [connection signal="item_selected" from="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/OptionButton" to="PaletteController" method="change_palette_by_id"]
 [connection signal="value_changed" from="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer/PanelContainer3/MarginContainer/HBoxContainer/VBoxContainer/SpinBox" to="BrushController" method="change_brush_size"]

@@ -13,7 +13,7 @@ signal changing_canvas(change_coords : Vector2i, is_altered : bool, is_clean : b
 
 @onready var image_save_path : String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("ctrl_modifier_key"):
 		if Input.is_action_just_pressed("copy_image"):
 			#DisplayServer.clipboard_set("Sorry, Godot can't copy images yet, so like in MS Paint you'll have to use screenshot hotkey for now, I'll update the app when support for copying images is added!")

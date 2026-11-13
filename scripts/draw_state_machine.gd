@@ -5,6 +5,7 @@ var current_state : DrawState = null
 var state_locked : bool = false
 
 func change_state(new_state : DrawState):
+	print("New draw state: ", new_state.get_script().get_global_name())
 	if state_locked:
 		return
 	if current_state != null:
