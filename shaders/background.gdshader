@@ -16,7 +16,10 @@ void fragment() {
 	vec2 uv = SCREEN_UV;
 	uv /= vec2(SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y);
 	
-	float grid_scale_factor = exp(max(floor((10.0 * -canv_linear_zoom) / 10.0), 0.0));
+	float cl_scaled_zoom = -canv_linear_zoom;
+	cl_scaled_zoom = min(cl_scaled_zoom, 2.0);
+	
+	float grid_scale_factor = exp(max((10.0 * cl_scaled_zoom) / 10.0, 0.0));
 	
 	float current_width = line_width * grid_scale_factor;
 	

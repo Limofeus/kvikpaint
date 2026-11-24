@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://f58iocbodv0l" path="res://scripts/ui/brush_display.gd" id="2_bn8pl"]
 [ext_resource type="Script" uid="uid://bdcmoa5guty76" path="res://scripts/controllers/palette_controller.gd" id="2_spxst"]
 [ext_resource type="Script" uid="uid://coijqydpeh0d7" path="res://scripts/controllers/canvas_controller.gd" id="2_unryf"]
+[ext_resource type="Script" uid="uid://dlynsna1gtvm" path="res://scripts/ui/cool_ctrl_mode.gd" id="3_chjal"]
 [ext_resource type="Material" uid="uid://cpq52kqlysl1w" path="res://materials/brush_circle.tres" id="3_prlbf"]
 [ext_resource type="Script" uid="uid://bixicaaphlhtg" path="res://scripts/states/line_draw_state.gd" id="3_udyvs"]
 [ext_resource type="Script" uid="uid://da2opcg3qrob5" path="res://scripts/states/erase_line_state.gd" id="4_1ja2j"]
@@ -432,6 +433,13 @@ viewport_path = NodePath("Rasterizer")
 _data = [Vector2(0, 1), 0.0, -0.63823116, 0, 1, Vector2(1, 0.36176884), -0.63823116, 0.0, 1, 0]
 point_count = 2
 
+[sub_resource type="Gradient" id="Gradient_cjqg0"]
+offsets = PackedFloat32Array(0, 0.1, 0.9, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i438q"]
+gradient = SubResource("Gradient_cjqg0")
+
 [node name="Main" type="Node" unique_id=31367388]
 
 [node name="SaveSystem" type="Node" parent="." unique_id=412962213 node_paths=PackedStringArray("brush_controller", "palette_controller", "canvas_controller", "hint_node")]
@@ -445,6 +453,15 @@ hint_node = NodePath("../InterfaceLayer/Hint")
 script = ExtResource("2_unryf")
 canvas = NodePath("../CanvasDrag/Canvas")
 canvas_offseter = NodePath("../CanvasDrag/OffsetCanvases")
+
+[node name="CoolCtrlMode" type="Node" parent="CanvasController" unique_id=2126194716 node_paths=PackedStringArray("background_control")]
+process_mode = 4
+editor_description = "Was supposedd to manage those dope lines down there and bg color change when holding ctrl, but it turned out to be kinda to much.. welp mb other time then"
+script = ExtResource("3_chjal")
+background_control = NodePath("../../BackgroundLayer/Background")
+cool_mode_background_color = Color(0.18, 0.18, 0.18, 1)
+cool_mode_grid_color = Color(0.3, 0.3, 0.3, 1)
+cool_mode_grid_lerp_power = 2.0
 
 [node name="PaletteController" type="Node" parent="." unique_id=858366258 node_paths=PackedStringArray("brush_controller", "color_slot_holder", "palette_selector")]
 script = ExtResource("2_spxst")
@@ -474,7 +491,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.480469, 0.224283, 0.271168, 1)
 
 [node name="InterfaceLayer" type="CanvasLayer" parent="." unique_id=1260025738]
 
@@ -1177,12 +1193,14 @@ pointer_animation_player = NodePath("../../../../InterfaceLayer/PointerRecharge/
 pointer_low_power_label = NodePath("../../../../InterfaceLayer/PointerRecharge/LowPowerLabel")
 state_machine = NodePath("..")
 
-[node name="LatexEquationState" type="Node" parent="CanvasDrag/Canvas/DrawStateMachine" unique_id=803524997 node_paths=PackedStringArray("latex_render_recs", "latex_text_field", "brush_controller", "error_label", "state_machine")]
+[node name="LatexEquationState" type="Node" parent="CanvasDrag/Canvas/DrawStateMachine" unique_id=803524997 node_paths=PackedStringArray("latex_render_recs", "latex_text_field", "brush_controller", "error_label", "latex_edit_display", "canvas", "state_machine")]
 script = ExtResource("38_5he1u")
 latex_render_recs = NodePath("../../../../Rasterizer/LatexRender")
 latex_text_field = NodePath("../../../../InterfaceLayer/LatexEditDisplay/HBoxContainer/TextEdit")
 brush_controller = NodePath("../../../../BrushController")
 error_label = NodePath("../../../../InterfaceLayer/LatexEditDisplay/HBoxContainer/TextEdit/ErrorLabek")
+latex_edit_display = NodePath("../../../../InterfaceLayer/LatexEditDisplay")
+canvas = NodePath("../..")
 state_machine = NodePath("..")
 
 [node name="RasterizerPreview" type="TextureRect" parent="CanvasDrag" unique_id=631333703]
@@ -1205,6 +1223,18 @@ _grid_expand = Vector2i(3, 3)
 _canvas_spacing = Vector2(1700, 1000)
 _scaling_curve = SubResource("Curve_qkpxi")
 canvas_coords_label = NodePath("../../InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/LeftContainer/MarginContainer/Canvas coords")
+
+[node name="DopeLines" type="Control" parent="CanvasDrag" unique_id=1097321599]
+visible = false
+anchors_preset = 0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasDrag/DopeLines" unique_id=83951059]
+layout_mode = 0
+offset_left = -1600.0
+offset_top = -25.0
+offset_right = 448.0
+offset_bottom = -15.0
+texture = SubResource("GradientTexture1D_i438q")
 
 [node name="Rasterizer" type="SubViewport" parent="." unique_id=1186140713]
 transparent_bg = true
@@ -1238,8 +1268,6 @@ theme_override_font_sizes/font_size = 15
 vertical_alignment = 1
 
 [node name="LatexRender" type="TextureRect" parent="Rasterizer" unique_id=173366463]
-offset_right = 40.0
-offset_bottom = 40.0
 
 [connection signal="item_selected" from="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/OptionButton" to="PaletteController" method="change_palette_by_id"]
 [connection signal="value_changed" from="InterfaceLayer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer/PanelContainer3/MarginContainer/HBoxContainer/VBoxContainer/SpinBox" to="BrushController" method="change_brush_size"]
